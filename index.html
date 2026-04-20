@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>TREDICT INVICTUS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* BACKGROUND MERAH KEHITAMAN DENGAN BLUR DAN GRADIENT GELAP */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://files.catbox.moe/golek6.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(4px) brightness(0.35) contrast(1.1);
+            z-index: -2;
+        }
+
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(80, 0, 0, 0.65), rgba(20, 0, 0, 0.85));
+            z-index: -1;
+        }
+
+        /* KONTAINER UTAMA DENGAN Aksen MERAH KELAM */
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(12, 3, 3, 0.88);
+            backdrop-filter: blur(8px);
+            border-radius: 36px;
+            overflow: hidden;
+            box-shadow: 0 30px 45px rgba(180, 0, 0, 0.4), 0 0 0 1.5px rgba(200, 40, 40, 0.6);
+            border: 1px solid #9b2c2c;
+            position: relative;
+            z-index: 2;
+            transition: all 0.2s;
+        }
+
+        /* HEADER DENGAN AKSEN MERAH BERDARAH */
+        .header {
+            padding: 22px 18px 10px 18px;
+            border-bottom: 1px solid #4a1a1a;
+            background: linear-gradient(135deg, rgba(30, 5, 5, 0.9), rgba(10, 2, 2, 0.95));
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .shield-icon {
+            width: 38px;
+            height: 38px;
+            background: #1e0808;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e03a3a;
+            font-size: 18px;
+            border: 1px solid #b33;
+            box-shadow: 0 0 6px rgba(220, 20, 20, 0.5);
+        }
+
+        .header-left h1 {
+            font-size: 20px;
+            font-weight: 800;
+            color: #ffcece;
+            text-shadow: 0 0 6px #a00;
+            letter-spacing: 0.5px;
+        }
+
+        .header-right {
+            color: #e35f5f;
+            font-size: 14px;
+            font-weight: 800;
+            background: #2a0b0b;
+            padding: 5px 12px;
+            border-radius: 40px;
+            border: 1px solid #b44;
+            box-shadow: inset 0 0 4px #3a0a0a;
+        }
+
+        .header-sub {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 6px;
+        }
+
+        .header-sub .left {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* INI PERINTAH: ganti xgojo jadi Tredict Invictus */
+        .header-sub .left .brand-name {
+            color: #ff6a6a;
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px #b22;
+            background: linear-gradient(135deg, #f0a0a0, #c04444);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: none;
+            font-weight: 900;
+        }
+        
+        /* efek solid untuk kompatibilitas */
+        .header-sub .left .brand-name-solid {
+            color: #ff7b7b;
+            font-weight: 800;
+        }
+        
+        .header-sub .left .fullup {
+            color: #b77;
+            font-size: 13px;
+            font-weight: 600;
+            background: #2f1212;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+
+        .header-sub .right {
+            color: #e06666;
+            font-size: 15px;
+            font-weight: bold;
+            background: #2f0f0f;
+            padding: 4px 12px;
+            border-radius: 40px;
+        }
+
+        /* MENU SWIPE (tombol merah gelap) */
+        .menu-swipe {
+            display: flex;
+            padding: 16px 16px 12px 16px;
+            gap: 12px;
+        }
+
+        .menu-item {
+            flex: 1;
+            text-align: center;
+            padding: 12px 6px;
+            background: rgba(30, 8, 8, 0.85);
+            backdrop-filter: blur(4px);
+            border: 1px solid #a33;
+            border-radius: 40px;
+            color: #f0c0c0;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .menu-item.active {
+            background: #b12a2a;
+            border-color: #ff7777;
+            color: #fff2f2;
+            box-shadow: 0 0 12px rgba(200, 30, 30, 0.6);
+        }
+
+        .menu-item i {
+            margin-right: 8px;
+            font-size: 14px;
+        }
+
+        /* VIDEO SECTION dengan border merah darah */
+        .image-section {
+            padding: 0 16px 12px 16px;
+        }
+
+        .gojo-video {
+            width: 100%;
+            height: 160px;
+            border-radius: 28px;
+            overflow: hidden;
+            border: 2px solid #aa3a3a;
+            box-shadow: 0 12px 20px rgba(150, 0, 0, 0.4);
+            margin-bottom: 18px;
+            position: relative;
+            background: #150505;
+        }
+
+        .gojo-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .video-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, #210707, transparent);
+            padding: 22px 12px 12px 12px;
+            text-align: center;
+        }
+
+        .video-overlay span {
+            color: #ff8585;
+            font-size: 15px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 8px #b00;
+            background: rgba(0,0,0,0.5);
+            padding: 3px 12px;
+            border-radius: 40px;
+            backdrop-filter: blur(2px);
+        }
+
+        /* STATS CARD merah gelap */
+        .stats-grid {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 22px;
+            padding: 0 16px;
+        }
+
+        .stat-card {
+            background: rgba(25, 6, 6, 0.85);
+            backdrop-filter: blur(3px);
+            border-radius: 26px;
+            padding: 12px 14px;
+            text-align: center;
+            border: 1px solid #b44;
+            min-width: 95px;
+        }
+
+        .stat-value {
+            font-size: 22px;
+            font-weight: 900;
+            color: #ff7a7a;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 9px;
+            color: #ddb0b0;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* INPUT SECTION */
+        .input-section {
+            padding: 0 16px 10px 16px;
+        }
+
+        .input-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ff8585;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 16px;
+            background: rgba(20, 5, 5, 0.85);
+            backdrop-filter: blur(2px);
+            border: 1px solid #aa4444;
+            border-radius: 28px;
+            color: #ffe5e5;
+            font-size: 14px;
+            margin-bottom: 20px;
+            outline: none;
+        }
+
+        .input-field:focus {
+            border-color: #ff5e5e;
+            box-shadow: 0 0 12px rgba(200, 0, 0, 0.5);
+        }
+
+        .bug-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ff8a8a;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        /* BUG GRID item */
+        .bug-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .bug-item {
+            background: rgba(35, 10, 10, 0.9);
+            backdrop-filter: blur(2px);
+            border: 1px solid #a33;
+            border-radius: 50px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        .bug-item.active {
+            background: #b32b2b;
+            border-color: #ff8080;
+            box-shadow: 0 0 8px #e44;
+        }
+
+        .bug-item i {
+            color: #e66;
+            margin-right: 8px;
+            font-size: 13px;
+        }
+
+        .bug-item span {
+            font-size: 12px;
+            font-weight: 700;
+            color: #ffd6d6;
+        }
+
+        .bug-item.active i, .bug-item.active span {
+            color: white;
+            text-shadow: 0 0 2px black;
+        }
+
+        /* Bottom selector dengan sentuhan merah */
+        .bottom-selector {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(28, 8, 8, 0.9);
+            backdrop-filter: blur(3px);
+            border: 1px solid #aa4040;
+            border-radius: 44px;
+            padding: 12px 22px;
+            margin-bottom: 24px;
+        }
+
+        .selector-left i {
+            color: #e06666;
+            margin-right: 10px;
+        }
+
+        .selector-left span {
+            color: #ffc0c0;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .selector-right {
+            color: #ff8c8c;
+            font-weight: 800;
+            font-size: 13px;
+            background: #2d0c0c;
+            padding: 4px 12px;
+            border-radius: 30px;
+        }
+
+        /* TOMBOL KIRIM dengan warna merah menyala */
+        .send-btn {
+            width: 100%;
+            background: linear-gradient(95deg, #a02222, #cc3a3a);
+            border: none;
+            border-radius: 44px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            margin-bottom: 22px;
+            transition: 0.2s;
+            box-shadow: 0 6px 0 #4f1111;
+        }
+
+        .send-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 3px 0 #4f1111;
+        }
+
+        .send-btn i, .send-btn span {
+            color: #fff0f0;
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        /* custom alert merah gelap */
+        .custom-alert {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: #1f0909e6;
+            backdrop-filter: blur(14px);
+            border: 2px solid #c44;
+            border-radius: 36px;
+            padding: 28px 20px;
+            width: 90%;
+            max-width: 320px;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.25s;
+            text-align: center;
+        }
+
+        .custom-alert.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .alert-header i {
+            color: #ff6a6a;
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .alert-header h3 {
+            color: #ff9e9e;
+            font-weight: 800;
+            font-size: 20px;
+        }
+
+        .alert-content div {
+            background: #2f1010;
+            border-radius: 20px;
+            margin: 12px 0;
+            padding: 10px;
+            border-left: 4px solid #e44;
+        }
+
+        .alert-target {
+            color: #ffb3b3;
+            font-weight: 700;
+            word-break: break-word;
+        }
+
+        .alert-bug {
+            color: #ff8686;
+            font-weight: 800;
+        }
+
+        .alert-status {
+            color: #f7b05e;
+            font-weight: 800;
+        }
+
+        .alert-status.success {
+            color: #78ff78;
+            text-shadow: 0 0 6px #0a0;
+        }
+
+        .alert-footer button {
+            background: #bc3a3a;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-weight: 800;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .footer {
+            padding: 14px 18px;
+            border-top: 1px solid #591a1a;
+            display: flex;
+            justify-content: space-between;
+            background: #140606b3;
+        }
+
+        .footer-left i {
+            color: #e06666;
+        }
+
+        .footer-left span {
+            color: #aa8888;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .footer-right {
+            color: #7a4a4a;
+            font-size: 10px;
+        }
+        
+        #overlay {
+            background: rgba(0,0,0,0.75);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-top">
+            <div class="header-left">
+                <div class="shield-icon"><i class="fas fa-skull-crossbones"></i></div>
+                <h1>TREDICT INVICTUS</h1>
+            </div>
+            <div class="header-right">V.2.0</div>
+        </div>
+        <div class="header-sub">
+            <div class="left">
+                <!-- GANTI XGOJO MENJADI TREDICT INVICTUS (sesuai perintah) -->
+                <span class="brand-name">TREDICT INVICTUS</span>
+                <span class="fullup">- FULL AKSES</span>
+            </div>
+            <div class="right">Xatanicvxii</div>
+        </div>
+    </div>
+
+    <!-- MENU SWIPE -->
+    <div class="menu-swipe">
+        <div class="menu-item active" onclick="switchMenu('whatsapp')" id="menuWhatsapp">
+            <i class="fab fa-whatsapp"></i> Bug Contact
+        </div>
+        <div class="menu-item" onclick="switchMenu('group')" id="menuGroup">
+            <i class="fas fa-users"></i> BUG GROUP
+        </div>
+    </div>
+
+    <!-- VIDEO SECTION -->
+    <div class="image-section">
+        <div class="gojo-video">
+            <video autoplay loop muted playsinline id="bgVideo">
+                <source src="https://files.catbox.moe/q55u0l.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay">
+                <span id="videoText">🔥 TREDICT INVICTUS 🔥</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- STATS CARD -->
+    <div class="stats-grid">
+        <div class="stat-card"><div class="stat-value">11</div><div class="stat-label">TOTAL BUGS</div></div>
+        <div class="stat-card"><div class="stat-value">GACOR</div><div class="stat-label">SUCCESS RATE</div></div>
+        <div class="stat-card"><div class="stat-value">ACTIVE</div><div class="stat-label">STATUS</div></div>
+    </div>
+
+    <!-- INPUT SECTION -->
+    <div class="input-section">
+        <div class="input-label" id="targetLabel">
+            <i class="fas fa-globe"></i>
+            <span id="targetLabelText">NOMOR TARGET</span>
+        </div>
+        <input type="text" class="input-field" id="targetInput" placeholder="628XXXXXXXXXX">
+
+        <div class="bug-label"><i class="fas fa-bug"></i><span>PILIH BUG MERAH</span></div>
+
+        <!-- Bug Grid WhatsApp -->
+        <div class="bug-grid" id="bugGridWhatsapp">
+            <div class="bug-item active" onclick="selectBug(this, 'X-Crashing', 'whatsapp')"><i class="fas fa-bolt"></i><span>X-Crashing</span></div>
+            <div class="bug-item" onclick="selectBug(this, 'X-Gojo', 'whatsapp')"><i class="fas fa-eye"></i><span>X-Gojo</span></div>
+            <div class="bug-item" onclick="selectBug(this, 'FC DELAYING', 'whatsapp')"><i class="fas fa-clock"></i><span>FC DELAYING</span></div>
+            <div class="bug-item" onclick="selectBug(this, 'SPAM_CALL', 'whatsapp')"><i class="fas fa-phone-alt"></i><span>SPAM_CALL</span></div>
+            <div class="bug-item" onclick="selectBug(this, 'UI_DELETE', 'whatsapp')"><i class="fas fa-trash-alt"></i><span>UI_DELETE</span></div>
+        </div>
+
+        <!-- Bug Grid Group (hidden awal) -->
+        <div class="bug-grid" id="bugGridGroup" style="display: none;">
+            <div class="bug-item active" onclick="selectBug(this, 'gc_bug', 'group')"><i class="fas fa-users"></i><span>gc_bug</span></div>
+            <div class="bug-item" onclick="selectBug(this, 'bugallmem', 'group')"><i class="fas fa-user-friends"></i><span>bugallmem</span></div>
+            <div class="bug-item" onclick="selectBug(this, 'buggcganas', 'group')"><i class="fas fa-fire"></i><span>buggcganas</span></div>
+        </div>
+
+        <!-- Bottom Selector -->
+        <div class="bottom-selector">
+            <div class="selector-left"><i class="fas fa-eye-slash"></i><span id="bottomSelectorText">FC iNVisiBiE</span></div>
+            <div class="selector-right" id="bottomSelectorRight">invisible</div>
+        </div>
+
+        <!-- Send Button -->
+        <div class="send-btn" onclick="validateAndSend()">
+            <i class="fas fa-paper-plane"></i><span>KIRIM BUG</span><i class="fas fa-bolt"></i>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-left"><i class="fas fa-bolt"></i><span>INVICTUS CREW</span></div>
+        <div class="footer-right">© 2026 Tredict Invictus</div>
+    </div>
+</div>
+
+<!-- ALERT -->
+<div class="custom-alert" id="customAlert">
+    <div class="alert-header"><i class="fas fa-skull"></i><h3>INVICTUS PROCESS</h3></div>
+    <div class="alert-content">
+        <div><div style="color:#d99;">TARGET:</div><div class="alert-target" id="alertTarget"></div></div>
+        <div><div style="color:#d99;">BUG TYPE:</div><div class="alert-bug" id="alertBug"></div></div>
+        <div><div style="color:#d99;">STATUS:</div><div class="alert-status" id="alertStatus">PROCESSING...</div></div>
+    </div>
+    <div class="alert-footer"><button class="alert-btn" onclick="closeAlert()">EKSEKUSI</button></div>
+</div>
+<div style="display: none; position: fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.7); z-index:1999;" id="overlay" onclick="closeAlert()"></div>
+
+<script>
+    let alertTimeout;
+    let currentMode = 'whatsapp';
+    let currentBug = 'X-Crashing';
+    let currentGroupBug = 'gc_bug';
+
+    function switchMenu(mode) {
+        currentMode = mode;
+        document.getElementById('menuWhatsapp').classList.toggle('active', mode === 'whatsapp');
+        document.getElementById('menuGroup').classList.toggle('active', mode === 'group');
+        
+        const title = document.getElementById('mainTitle');
+        if(title) title.innerText = mode === 'whatsapp' ? 'BUG WHATSAPP' : 'BUG GROUP';
+        document.getElementById('targetLabelText').innerText = mode === 'whatsapp' ? 'NOMOR TARGET' : 'GROUP URL TARGET';
+        document.getElementById('targetInput').placeholder = mode === 'whatsapp' ? '628XXXXXXXXXX' : 'https://chat.whatsapp.com/...';
+        document.getElementById('videoText').innerText = mode === 'whatsapp' ? '⚡ TREDICT INVICTUS ⚡' : '🔥 INVICTUS GROUP 🔥';
+        
+        document.getElementById('bugGridWhatsapp').style.display = mode === 'whatsapp' ? 'flex' : 'none';
+        document.getElementById('bugGridGroup').style.display = mode === 'group' ? 'flex' : 'none';
+        
+        if(mode === 'whatsapp') updateBottomSelectorWhatsapp(currentBug);
+        else updateBottomSelectorGroup(currentGroupBug);
+    }
+
+    function selectBug(element, bugName, mode) {
+        if(mode === 'whatsapp') {
+            document.querySelectorAll('#bugGridWhatsapp .bug-item').forEach(item => item.classList.remove('active'));
+            currentBug = bugName;
+        } else {
+            document.querySelectorAll('#bugGridGroup .bug-item').forEach(item => item.classList.remove('active'));
+            currentGroupBug = bugName;
+        }
+        element.classList.add('active');
+        if(mode === 'whatsapp') updateBottomSelectorWhatsapp(bugName);
+        else updateBottomSelectorGroup(bugName);
+    }
+
+    function updateBottomSelectorWhatsapp(bugName) {
+        const textSpan = document.getElementById('bottomSelectorText');
+        const rightSpan = document.getElementById('bottomSelectorRight');
+        switch(bugName) {
+            case 'X-Crashing': textSpan.innerText = 'FC iNVisiBiE'; rightSpan.innerText = 'invisible'; break;
+            case 'X-Gojo': textSpan.innerText = 'X-Gojo Mode'; rightSpan.innerText = 'fcotax'; break;
+            case 'FC DELAYING': textSpan.innerText = 'DELAY iNVisiBiE'; rightSpan.innerText = 'DELAY'; break;
+            case 'SPAM_CALL': textSpan.innerText = 'SPAM CALL'; rightSpan.innerText = 'spam'; break;
+            case 'UI_DELETE': textSpan.innerText = 'UI DELETE'; rightSpan.innerText = 'delete'; break;
+            default: textSpan.innerText = 'FC iNVisiBiE'; rightSpan.innerText = 'invisible';
+        }
+    }
+
+    function updateBottomSelectorGroup(bugName) {
+        const textSpan = document.getElementById('bottomSelectorText');
+        const rightSpan = document.getElementById('bottomSelectorRight');
+        switch(bugName) {
+            case 'gc_bug': textSpan.innerText = 'GC BUG MODE'; rightSpan.innerText = 'gc'; break;
+            case 'bugallmem': textSpan.innerText = 'ALL MEMBER BUG'; rightSpan.innerText = 'all'; break;
+            case 'buggcganas': textSpan.innerText = 'GC GANAS MODE'; rightSpan.innerText = 'ganas'; break;
+            default: textSpan.innerText = 'GC BUG'; rightSpan.innerText = 'invictus';
+        }
+    }
+
+    function validateAndSend() {
+        const target = document.getElementById('targetInput').value.trim();
+        if(currentMode === 'whatsapp') {
+            if(!target) { alert('ISI NOMOR DULU!'); return; }
+            if(!target.startsWith('628')) { alert('NOMOR HARUS 628...'); return; }
+            if(target.length < 10 || target.length > 14) { alert('NOMOR TIDAK VALID'); return; }
+        } else {
+            if(!target) { alert('ISI LINK GROUP DULU!'); return; }
+            if(!target.startsWith('https://')) { alert('URL HARUS HTTPS://'); return; }
+            if(!target.includes('chat.whatsapp.com')) { alert('LINK GROUP TIDAK VALID'); return; }
+        }
+
+        document.getElementById('alertTargetLabel')?.removeAttribute('style');
+        document.getElementById('alertTarget').innerText = target;
+        document.getElementById('alertBug').innerText = currentMode === 'whatsapp' ? currentBug : currentGroupBug;
+        document.getElementById('alertStatus').innerText = 'PROCESSING...';
+        document.getElementById('alertStatus').className = 'alert-status';
+        
+        document.getElementById('customAlert').classList.add('show');
+        document.getElementById('overlay').style.display = 'block';
+        if(alertTimeout) clearTimeout(alertTimeout);
+        alertTimeout = setTimeout(() => {
+            const statusDiv = document.getElementById('alertStatus');
+            if(statusDiv) {
+                statusDiv.innerText = 'SUCCESSFULLY';
+                statusDiv.className = 'alert-status success';
+            }
+        }, 5000);
+    }
+
+    function closeAlert() {
+        document.getElementById('customAlert').classList.remove('show');
+        document.getElementById('overlay').style.display = 'none';
+        if(alertTimeout) clearTimeout(alertTimeout);
+    }
+
+    document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeAlert(); });
+    // inisialisasi tampilan awal
+    updateBottomSelectorWhatsapp('X-Crashing');
+</script>
+</body>
+</html>
